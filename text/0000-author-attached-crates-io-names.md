@@ -111,9 +111,9 @@ you may grant others to use your account name as a brand or you may revoke your 
 ```text
 crates.io  [ Click or type 'S' to search ] Browse | Docs | [A] Alice
 
-Brand Access                                 [ Grant new user ]
-[ bob ]     Created 1 year ago. Expires in 4 months. [ Revoke ]
-[ cindy ]   Created 1 month ago. Expires in 7 days.  [ Revoke ]
+Brand Access ................................ [ Grant new user ]
+[ bob ] .... Created 1 year ago. Expires in 4 months. [ Revoke ]
+[ cindy ] ... Created 1 month ago. Expires in 7 days. [ Revoke ]
 ```
 
 ## Crate alias
@@ -136,32 +136,125 @@ Click the 'Alias' button and follow instructions, an alias could be created unde
 
 You are taking your account with patent or trademark, but this account was registered by other people. Don't worry. Go `crates.io`
 and click new item 'Report' after dashboard and account settings. Submit your trademark or patent certificate to the Rust team and they
-would help you to take the account name. If you submit the report an automatic message is given to that account describing what had
+would help you to take the account name. If you submit the report, an automatic message is given to that account describing what had
 happened, if that account does not react for some time period (e.g. 6 months) and is not marked 'protected', you now own this account.
 The team would monitor all the process to prevent rush-register issues.
 
 # Reference-level explanation
 [reference-level-explanation]: #reference-level-explanation
 
-This is the technical portion of the RFC. Explain the design in sufficient detail that:
+## Enhance `Cargo.toml` dependency chooser
 
-- Its interaction with other features is clear.
-- It is reasonably clear how the feature would be implemented.
-- Corner cases are dissected by example.
+Right now we add simply one new line to `[dependencies]` section to declare a dependency. This is written like:
 
-The section should return to the examples given in the previous section, and explain more fully how the detailed proposal makes those examples work.
+```toml
+# type 1
+[dependencies]
+crate-name = "version"
+# type 2
+[dependencies.crate-name]
+version = "version"
+```
+
+Here dependent crates are named without backslash character `/` guaranteed as it's illegal in TOML grammar.
+TOML also support map key to be quoted strings like `"crate-name"` other than nake strings. So to allow names with
+one backslash, we need to change `cargo` logic to allow string with one backslash to be a dependency name:
+
+```toml
+# type 3
+[dependencies]
+"author-id/crate-name" = "version"
+# type 4
+[dependencies."author-id/crate-name"]
+version = "version"
+```
+
+Now cargo should search for crate `author-id/crate-name`. In Rust code the root module of this crate is still `crate_name`.
+
+## Transition from old names to new names
+
+New backslash names could coexist with old naked names in the first period. Eventually the naked names could be
+deprecated or finally removed. If developers still need to depend on older projects with naked names only, they
+should add its `crates.io` user name prior to the project name itself.
+
+## Modifications on `crates.io`
+
+There are two parts we need to add: Brand access and Report. And there is one thing we should modify is the crate usage guide.
+
+Brand access is shown in page 'Account Settings' in every manu bar addressed `https://crates.io/me`. We add new section
+`Brand access` to support using this account as brand author for other accounts. This section contains a button 'Grant new user'
+and a list of granted accesses available by now. The 'Grant new user' button leads to a new menu where the user fill in another
+user's name, revoke date and provide a confirm button; if confirmed `crates.io` stores target user, time now, time revoked into
+database to declare that a new granted user list item is added. The list shows all granted user list items, the time this grant
+was performed and will be revoked; for every node user name and a 'Revoke' button is shown and after 'Revoke' button is manually
+clicked this list item is deleted in database. This section may show in web page like:
+
+```text
+Brand Access ................................ [ Grant new user ]
+[ bob ] .... Created 1 year ago. Expires in 4 months. [ Revoke ]
+[ cindy ] ... Created 1 month ago. Expires in 7 days. [ Revoke ]
+```
+
+Report page is used for patent or trademark owners to retrieve its account. This page could be added into the drop-down manu of
+users logged in. This page should contain textboxes to type in E-mail address, retrieve material uploader, additional information
+and one submit button. After submit the all filled messages should be deliveered to the site maintaining team. All input boxes should
+install with anti-spam algorithms or apply other methods to avoid advertisments or malicious users.
+
+Crate usage guide by now exists for every crate page. For example there are:
+
+```text
+[ Logo ] fake-avx512 0.1.0 ................................... [ Follow ]
+| Homepage | Documentation | Repository | Dependent crates |
+[ Cargo.toml [ fake-avx512 = "0.1.0" ] .......... [ Copy to clipboard ] ]
+```
+
+We may replace the instruction for crate name with author identifiers. For example:
+
+```text
+[ Cargo.toml [ "luojia65/fake-avx512" = "0.1.0" ] [ Copy to clipboard ] ]
+```
+
+## Cargo publish
+
+When cargo is preparing to publish crates, it should check if `brand-author` key exists for `package` section of the configuration
+of this crate. This key allows default value to be the author's account name judged by the hash it logged in. If this key exists, cargo
+is to publish using the replaced name. Then cargo should check if this account have access to the brand author name provided. If
+the API replied okay for access then continue, or reject publishing for illegal access and raise error for it. After access checking
+cargo could procceed other steps and finish the publish process.
 
 # Drawbacks
 [drawbacks]: #drawbacks
 
-Why should we *not* do this?
+Adding author identifiers could be expensive and adds to the complexity of Rust ecosystem. New users have to learn complex author/name
+crate naming system and old users need time to adapt to new naming system.
+
+If we add author prior to project name, it may not be easy for users to remember the full crate name when using.
 
 # Rationale and alternatives
 [rationale-and-alternatives]: #rationale-and-alternatives
 
-- Why is this design the best in the space of possible designs?
-- What other designs have been considered and what is the rationale for not choosing them?
-- What is the impact of not doing this?
+One possible design is to declare a prefix only allowing certain accounts to use. Like `tokio-` or `futures-`, this way is already
+adapted by the community to describe meta-project and sub-projects, or projects related to it. But now as we allow other accounts to take
+arbitrary crate names with some prefix, this possible design forbids it and third-party developers have to think out of other ways to
+name its project which could be difficult to judge. And comparing this method with author-attached way this method acts somehow same
+but developers should write very long crate name in Rust code or even use complex `use ... as ...` to make names short. Also, this way
+do not assure quality of project and short names without prefixes could still be hi-jacked by attackers so the core problem is not
+solved perfectly.
+
+Another possible design we could allow multiple projects with the same name exists in `crates.io` and choose which is needed in config
+file. However this adds to complexity and could be more misleading for new users. It could also be hard to distinguish between projects
+where users may download wrong project which maybe insecure or with not so good quality.
+
+Possible design may put author in other fields other than the name. It may be suggested the spliting character could be `.` other than `/`
+so we could use `[dependencies.luojia65.project-name]`. However as TOML only allow quoted key name for strings with dots like
+`"luojia65.project-name"`, users may be confused on when the quotes should be writte. TOML parser are in this way not easy to implement
+and maintain. Other delimiters like `::` may also considered not proper under this rule.
+
+It's considerable to maintain what the naming system is now and not to change it. If we do not implement this, short names could be taken
+like what domain rush-registers and trademark hooligans had done to cause damages and severe issues. It would not also be great for a
+long-term maintained programming technology like Rust to allow users to take one name permanently, because in long term this name may have
+different meanings as culture advances, and the project in long term may branch, transferred or removed which should not fit for permanent
+names.
 
 # Prior art
 [prior-art]: #prior-art
