@@ -259,19 +259,52 @@ names.
 # Prior art
 [prior-art]: #prior-art
 
-Discuss prior art, both the good and the bad, in relation to this proposal.
-A few examples of what this can include are:
+## NPM
 
-- For language, library, cargo, tools, and compiler proposals: Does this feature exist in other programming languages and what experience have their community had?
-- For community proposals: Is this done by some other community and what were their experiences with it?
-- For other teams: What lessons can we learn from what other communities have done here?
-- Papers: Are there any published papers or great posts that discuss this? If you have some relevant papers to refer to, this can serve as a more detailed theoretical background.
+Node.js's NPM is a platform to share Node.js modules. It allows multiple projects to coexist under a rule of action scope.
+NPM allows to take a scope and publish packages under this scope. Then in dependency section of `package.json` users may write with scope
+prefix attached. For example we have a scope `@luojia65` and a project named `awesome-library` under it, we write:
 
-This section is intended to encourage you as an author to think about the lessons from other languages, provide readers of your RFC with a fuller picture.
-If there is no prior art, that is fine - your ideas are interesting to us whether they are brand new or if it is an adaptation from other languages.
+```json
+{
+    "name": "@luojia65/awesome-library"
+}
+```
 
-Note that while precedent set by other languages is some motivation, it does not on its own motivate an RFC.
-Please also take into consideration that rust sometimes intentionally diverges from common language features.
+instead of
+
+```json
+{
+    "name": "awesome-library"
+}
+```
+
+to distinguish same library from different authors.
+
+Under one certain scope, NPM do not allow projects share similiar names exist at the same time;
+here similiar name means same UPPER/lower case or have different non-alpha split charachers like `wow-233-666` and `wow233666`.
+(Historically allowing coexistance has caused severe security issue for package `crossenv`, and NPM had to remove tens of packages
+to prevent further damages.) This way allows to prevent security problems and somehow crate quality.
+
+Names with sections are declared private by NPM as default; developer should use `npm publish --access=public` to make this package public.
+
+## Maven
+
+Maven is a platform for Java dependencies. To use a maven package developers should provide `groupId` and `artifactId` addition to `version`.
+Developers may fill them in `<dependencies>` XML tags like:
+
+```xml
+<dependency>
+　　<groupId>cc.luojia</groupId>
+　　<artifactId>great-project</artifactId>
+　　<version>1.0.0.20200101</version>
+</dependency>
+```
+
+Additional configurations may be added in `<build>` or other sections.
+
+In this way every Maven package is distinguished by those three fields, where under different `groupId` there may exists same `artifactId`.
+Here both the `groupId` and `artifactId` cannot be ignored.
 
 # Unresolved questions
 [unresolved-questions]: #unresolved-questions
