@@ -53,8 +53,8 @@ Here we refer:
 
 ## `brand-author` cargo-toml package field
 
-Now that we have author attached crates-io names and we have a crate to publish. For every crate we declare one name
-as `brand-author`. We write `Cargo.toml` file like:
+Now that we have author attached crates-io names and you have a crate to publish. For every crate you should declare one
+name as `brand-author`. You may write `Cargo.toml` file like:
 
 ```toml
 [package]
@@ -86,8 +86,14 @@ could be many crates with equal project name. So the user should write like:
 ```
 
 Additional quotes are put around the name to follow the toml grammar (bare `/` is not allowed). When the user use the library
-in code, it writes `use awesome-library;` instead of putting the full name in. Or in edition 2015 users may write like
-`extern crate awesome-library;`. Now your user feels free to write code with your awesome library.
+in code, it writes:
+
+```rust
+use awesome-library;
+```
+
+instead of putting the full name in. Or in edition 2015 users may write like `extern crate awesome-library;`. 
+Now your user feels free to write code with your awesome library.
 
 ## Get access to a brand
 
