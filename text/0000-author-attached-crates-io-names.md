@@ -284,7 +284,7 @@ to distinguish same library from different authors.
 Under one certain scope, NPM do not allow projects share similiar names exist at the same time;
 here similiar name means same UPPER/lower case or have different non-alpha split charachers like `wow-233-666` and `wow233666`.
 (Historically allowing coexistance has caused severe security issue for package `crossenv`, and NPM had to remove tens of packages
-to prevent further damages.) This way allows to prevent security problems and somehow crate quality.
+to prevent further damages.) This way allows to prevent security problems and somehow ensures crate quality.
 
 Names with sections are declared private by NPM as default; developer should use `npm publish --access=public` to make this package public.
 
