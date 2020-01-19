@@ -89,10 +89,10 @@ Additional quotes are put around the name to follow the toml grammar (bare `/` i
 in code, it writes:
 
 ```rust
-use awesome-library;
+use awesome_library;
 ```
 
-instead of putting the full name in. Or in edition 2015 users may write like `extern crate awesome-library;`. 
+instead of putting the full name in. Or in edition 2015 users may write like `extern crate awesome_library;`.
 Now your user feels free to write code with your awesome library.
 
 ## Get access to a brand
