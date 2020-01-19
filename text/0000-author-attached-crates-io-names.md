@@ -85,8 +85,9 @@ could be many crates with equal project name. So the user should write like:
 "luojia65/awesome-library" = "0.1"
 ```
 
-Additional quotes are put around the name to follow the toml grammar (bare `/` is not allowed). When the user use the library
-in code, it writes:
+Additional quotes are put around the name to follow the toml grammar (bare `/` is not allowed).
+
+When the user use the library in code, it writes:
 
 ```rust
 use awesome_library;
@@ -97,7 +98,7 @@ Now your user feels free to write code with your awesome library.
 
 ## Get access to a brand
 
-Time goes on ans you are now an active library developer in Rust and often publish libraries. You could be working for a group
+Time goes on and you are now an active library developer in Rust and often publish libraries. You could be working for a group
 or work on your own thus often switch between brands. By the time you successfully registered an account for `crates.io`, you own
 one personal brand with your account name. Your group, company or school may register their own accounts to acquire their brands.
 If you need to use your group's brand, the account of the group may grant you access for a time period in `crates.io` web settings.
@@ -133,7 +134,7 @@ Click the 'Alias' button and follow instructions, an alias could be created unde
 
 ## If your account is rush-registered
 
-You are taking your account with patent or trademark, but this account was registered by other people, but don't worry. Go `crates.io`
+You are taking your account with patent or trademark, but this account was registered by other people. Don't worry. Go `crates.io`
 and click new item 'Report' after dashboard and account settings. Submit your trademark or patent certificate to the Rust team and they
 would help you to take the account name. If you submit the report an automatic message is given to that account describing what had
 happened, if that account does not react for some time period (e.g. 6 months) and is not marked 'protected', you now own this account.
