@@ -313,6 +313,7 @@ Here both the `groupId` and `artifactId` cannot be ignored.
 - Is there another possible name for new cargo-toml field `brand-author`?
 - Is 'crate alias' feature necessary?
 - How should Rust team judge if the author brand is valid for given patent or trademark?
+- Trademarks may vary between countries and regions, and could contain different kinds. How to judge which group should take this name? Should this part be removed?
 
 # Future possibilities
 [future-possibilities]: #future-possibilities
