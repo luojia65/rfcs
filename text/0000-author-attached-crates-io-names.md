@@ -40,7 +40,7 @@ method. Malicious users may take names of popular projects to seize benefits or 
 there could be projects that their maintainers stop to develop which may also cause issues.
 
 We used to regard the crate name itself as an identifier of crate function as well as its author, but recent
-experience and ideas suggests it should be separated from the information of the author as there exist
+experience and ideas suggests it may should be separated from the information of the author as there exist
 side-effects.
 
 The crate name itself only could be inducing or misleading. Some author may take algorithm names, research ideas
