@@ -297,6 +297,10 @@ quoted key name for strings with dots like `"luojia65.project-name"`, users may 
 should be writte. TOML parser are in this way not easy to implement and maintain. Other delimiters like `::` may
 also considered not proper under this rule.
 
+Existing Pre-RFC may suggest allowing backslash character `/` in project name only and map crates-io name into
+actual root module name. However this approach may adds complexity as the users have to remember two names
+to actual use one crate.
+
 ## Not implementing this feature
 
 It's considerable to maintain what the naming system is now and not to change it. If we do not implement this,
