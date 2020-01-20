@@ -374,6 +374,28 @@ somehow ensures crate quality.
 Names with sections are declared private by NPM as default; developer should use `npm publish --access=public`
 to make this package public.
 
+## Anaconda and Python's PIP
+
+Python's PIP is a modern Python package manager, and Conda is similiarly a package manager and environmant
+manager for Python. Both PIP and Conda identifies one package using name and version only. For example if we need
+to install `pypiserver` we use:
+
+```shell
+pip3 install pypiserver
+```
+
+to get the package and install into disk.
+
+If we need to upload to pypi server, Python developers may use tool `twine` like:
+
+```shell
+twine upload dist/MyPackage-1.0.0.tar.gz
+```
+
+No author or organization information is provided. If same name exists, the upload server would return error code
+400 'File already exists'. This naming system is simple enough but could come into effect to maintain massive
+Python libraries.
+
 ## Maven
 
 Maven is a platform for Java dependencies. To use a maven package developers should provide `groupId` and
