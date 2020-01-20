@@ -38,6 +38,9 @@ could be written by anyone with any quality, but if it turned to `the-rust-team/
 `luojia65/xls-format` users may prefer the former one directly for good support and quality for the trustive
 brand `the-rust-team` (for example), and this brand is registered as a trademark so others cannot take it. By
 distinguishing good from not so good the Rust community may raise better projects or even new author brands.
+This may help solve issues raised in [this comment] that greater authors may provide better maintained libraries.
+
+[this comment]: https://users.rust-lang.org/t/cargo-problems-namespacing/2085/3
 
 So in order to make the name straight and safe, we introduce author attached crates-io names. We attach author's
 name before project name to describe that this author is responsible for this project. We expect this method
@@ -263,9 +266,10 @@ have unacceptible time cost.
 Comments on [_Domains ans Namespaces_] may suggest using GitHub repo to suggest if this author have access to
 this name. Some may suggest it nicer than domains, but the problem of name taking is handed over to GitHub.
 Due to traffic control of some countries and regions, GitHub is actually not accssible to every Rust developer
-in the world. Relying on another third party repo host may also face similiar problem. Rust could be run in
-isolated ethernet environment like developing for trade secret or secure environment, if we force to use one
-certain third party service, these users may have to switch to other technologies other than Rust.
+in the world. Relying on another third party repo host or one certain repo (e.g. awesome lists) may also face
+similiar problem. Rust could be run inisolated ethernet environment like developing for trade secret or secure
+environment, if we force to use one certain third party service, these users may have to switch to other
+technologies other than Rust.
 
 ## Declare prefixes
 
