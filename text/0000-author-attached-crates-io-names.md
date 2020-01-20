@@ -384,9 +384,10 @@ to install `pypiserver` we use:
 pip3 install pypiserver
 ```
 
-to get the package and install into disk.
+to get the package and install into disk. If Internet is unaccessible users may download the installer pack to
+have it manually installed.
 
-If we need to upload to pypi server, Python developers may use tool `twine` like:
+If we need to upload Python package to pypi server, Python developers may use tool `twine` like:
 
 ```shell
 twine upload dist/MyPackage-1.0.0.tar.gz
