@@ -12,6 +12,29 @@ the crate name. The document also declares how the crates should be declared in 
 # Motivation
 [motivation]: #motivation
 
+## Namespace designs that has been extensively discussed
+
+Squatting or taking names deliberately could be a headache of library authors. [View of @derekdreery] firstly
+suggests that crates-io squatting should be intervened to discourage. There had been spamming in crates-io as
+[what @steveklabnik announced] that spammers claimed some crate names are for them. Then there has been
+discussions on solution to this problem, one of them are crates-io namespacing.
+
+[View of @derekdreery]: https://internals.rust-lang.org/t/crates-io-squatting/8031
+[what @steveklabnik announced]: https://internals.rust-lang.org/t/crates-io-incident-2018-10-15/8568
+
+Namespacing could have been discussed for long among communities. Open discussions may trace back to
+[Naftuli Kay's note] that suggested the possibility of giving a name of author or organization prior to project
+name to distinguish between different crates-io projects. Then [Pre-RFC of @soc] suggests to take domains for
+these namespaces, and comments on it think limiting to GitHub repos is a probable solution. The idea of
+cratespaces is raised by [Pre-RFC of @samsieber] that suggests to have a super namespace of crates as well as
+have special programming language grammar designed to fit with cratespace architecture.
+
+[Naftuli Kay's note]: https://internals.rust-lang.org/t/namespacing-on-crates-io/8571
+[Pre-RFC of @soc]: https://internals.rust-lang.org/t/pre-rfc-domains-as-namespaces/8688
+[Pre-RFC of @samsieber]: https://internals.rust-lang.org/t/pre-rfc-idea-cratespaces-crates-as-namespace-take-2-or-3/11320
+
+## Author-Name design vs current one identifier design
+
 Existing crates-io names declares unique identifier for one given crate. But there are side effects for this
 method. Malicious users may take names of popular projects to seize benefits or threat its maintainers. Also,
 there could be projects that their maintainers stop to develop which may also cause issues.
@@ -281,6 +304,12 @@ difficult to judge. And comparing this method with author-attached way this meth
 developers should write very long crate name in Rust code or even use complex `use ... as ...` to make names
 short. Also, this way do not assure quality of project and short names without prefixes could still be hi-jacked
 by attackers so the core problem is not solved perfectly.
+
+Existing 'prefix::name' design may be found on the page of [_Cratespaces_] idea which allows to maintain sub
+projects under master projects using `cratespace::` prefix. This approach is also considerable but further
+designs should solve similiar problems the previous paragraph have mentioned.
+
+[_Cratespaces_]: https://internals.rust-lang.org/t/pre-rfc-idea-cratespaces-crates-as-namespace-take-2-or-3/11320
 
 ## Allow multiple projects share same name
 
